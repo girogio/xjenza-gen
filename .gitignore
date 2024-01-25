@@ -1,0 +1,11 @@
+main.pdf
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+*.bcf
+*.xml
+*.run.xml
+*.synctex.gz;
