@@ -1,4 +1,4 @@
-\input{packages/xjenza-preamble.tex}
+\input{./packages/xjenza-preamble.tex}
 
 % Front matter
 \title{A very interesting scientific publication}
@@ -35,43 +35,43 @@ $^{2}$Department of Physics, Harvard University, Cambridge MA, US}
 	\abstrac{\lipsum[1-3]}
 
 	\maketitle
-	
+
 	\section{Introduction}
 	\lipsum[4-6]
-    
+
     \subsection{Citations}
     Here, we refer to \textcite{smit54,colu92}. We can also use parentheses to cite \parencite{phil99}.
-    
+
     \section{Figures and Tables}
     In \cref{fig:mcsLogo}, we can see a the MCS logo, which occupies 30\% of the width of a column. Notice we use the \verb|\cref{}| command to get a clickable link.
-    
+
     \begin{figure}[h]
     	\centering
     	\includegraphics[width=.3\linewidth]{packages/logo}
     	\caption{MCS Logo}
 	    \label{fig:mcsLogo}
     \end{figure}
-    
-    If we have a large figure or table, and we want to break out of the two-column layout, occupying the whole page, we could instead make use a starred environment (\verb|\begin{figure*}...\end{figure*}| instead of \verb|\begin{figure}...\end{figure}|). For instance,  
-    \cref{tab:aSampleTable} does this. 
+
+    If we have a large figure or table, and we want to break out of the two-column layout, occupying the whole page, we could instead make use a starred environment (\verb|\begin{figure*}...\end{figure*}| instead of \verb|\begin{figure}...\end{figure}|). For instance,
+    \cref{tab:aSampleTable} does this.
     \begin{table*}[ht]
     	\centering
     	\renewcommand\arraystretch{1.3} % This adds more vertical spacing
     	\begin{tabular}{l|c p{3cm}}
     	    Column 1 & Column 2 & Column 3 \\
-    	    \hline 
-    	    Left-aligned text & Centred text & A column no wider than 3cm \\   
+    	    \hline
+    	    Left-aligned text & Centred text & A column no wider than 3cm \\
     	    x & y & z
     	\end{tabular}
     	\caption{A sample table}
 	    \label{tab:aSampleTable}
     \end{table*}
     \LaTeX{} tables are not the easiest thing to work with, if you want you can use a spreadsheet software and then paste a table into a tool like \url{https://www.tablesgenerator.com/}, which will generate a table you can copy and paste into a \LaTeX{} document.
-    
+
     % List all citations
 	\nocite{*}
 	\printbibliography
-	
+
 	% Balance columns on last page
 	\balance
 
