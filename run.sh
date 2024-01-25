@@ -7,7 +7,7 @@ compile(){
 
 clean(){
     echo "Cleaning..."
-    for file in *.aux *.log *.out *.toc *.bbl *.blg *.bcf *.xml *.run.xml *.synctex.gz; do
+    for file in *.aux *.log *.out *.toc *.bbl *.blg *.bcf *.xml *.run.xml *.fls *.fdb_latexmk *.synctex.gz; do
         rm -f $file
     done
 }
