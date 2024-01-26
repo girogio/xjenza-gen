@@ -136,10 +136,20 @@ class Article:
     def dict(self):
         authors_string = ""
         for i, author in enumerate(self.authors):
+            # Unpack first letter of names 1...n-1
             for name in author.name.split(" "):
                 authors_string += name[0] + ". "
 
-            authors_string += author.surname + f"$^{{{i+1}}}$"
+            # insert affiliation index and asterisk if corresponding author
+            authors_string += (
+                author.surname
+                + "$^{"
+                + str(i + 1)
+                + ("*" if author.is_corresponding else "")
+                + "}$"
+            )
+
+            # add comma if not last author or "and" if second to last
             if i == len(self.authors) - 2:
                 authors_string += " and "
             elif i != len(self.authors) - 1:
