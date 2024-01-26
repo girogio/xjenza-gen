@@ -136,7 +136,10 @@ class Article:
     def dict(self):
         authors_string = ""
         for i, author in enumerate(self.authors):
-            authors_string += f"{author.name[0]}. {author.surname}$^{{{i+1}}}$"
+            for name in author.name.split(" "):
+                authors_string += name[0] + ". "
+
+            authors_string += author.surname + f"$^{{{i+1}}}$"
             if i == len(self.authors) - 2:
                 authors_string += " and "
             elif i != len(self.authors) - 1:

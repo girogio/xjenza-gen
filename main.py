@@ -19,7 +19,7 @@ einstein = Author(
 ).corresponding()
 
 oppenheimer = Author(
-    "Robert J.",
+    "Robert Julius",
     "Oppenheimer",
     "robbie@radioaktiv.com",
     "Department of Atomic Sciences, Faculty of Science, University of Malta, Malta",
@@ -46,7 +46,7 @@ my_article = (
     .add_section(Section("Section 1", "Content 1"))
     .add_section(Section("Section 2", "Content 2"))
     .add_section(Section("Section 3", "Content 3"))
-    .keywords()
+    .add_keywords("keyword1", "keyword2", "keyword3")
 )
 
 

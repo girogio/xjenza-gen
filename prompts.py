@@ -29,7 +29,7 @@ def prompt_authors() -> list[Author]:
         print(f"\n{len(authors)} author(s) so far\n{'-' * 20}\n")
 
         full_name: str = prompt(
-            "Author full name? (leave empty to finish)",
+            "Author's full name? (leave empty to exit)",
             default="",
             show_default=False,
             type=str,
@@ -39,9 +39,16 @@ def prompt_authors() -> list[Author]:
         if not full_name:
             break
 
-        name, surname = full_name.strip().split(" ")
-        email: str = prompt("Author email?")
-        affiliation: str = prompt("Author affiliation?")
+        name_words = full_name.strip().split(" ")
+        if len(name_words) < 2:
+            print("ERROR: Please enter the author's full name")
+            continue
+        else:  # We have a first name and a surname or more
+            surname = name_words[-1]
+            name = " ".join(name_words[:-1])
+
+        email: str = prompt("Author's email?")
+        affiliation: str = prompt("Author's affiliation?")
         is_corresponding: bool = confirm(f"Is {full_name} the corresponding author?")
         author = Author(name, surname, email, affiliation, is_corresponding)
 
