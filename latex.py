@@ -6,6 +6,8 @@ from latexbuild import render_latex_template
 
 
 class LatexEngine:
+    """This class is responsible for building the final PDF document from the given Article object."""
+
     template_folder: str
     template_file: str
     output_folder: str
@@ -29,6 +31,7 @@ class LatexEngine:
         self.output_file = output_file
 
     def write_tex(self, article: Article):
+        """This method writes the content of the Article object to a .tex file, using the Jinja2 template engine."""
         content = render_latex_template(
             self.template_folder, self.template_file, article.dict(), escape_latex=False
         )
@@ -38,6 +41,7 @@ class LatexEngine:
             f.close()
 
     def compile_pdf(self):
+        """This method runs the pdflatex command on the generated .tex file."""
         print(f"Compiling {self.template_file}... ", end="")
         subprocess.run(
             ["pdflatex", "-output-directory", self.output_folder, self.output_file],
@@ -47,6 +51,7 @@ class LatexEngine:
         print("Done")
 
     def run_biber(self):
+        """This method runs the biber command on the generated .tex file."""
         print(
             f"Running biber on {path.join(self.output_folder, self.output_file)}... ",
             end="",
