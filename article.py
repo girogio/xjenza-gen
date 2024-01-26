@@ -17,6 +17,11 @@ class Author:
         self.affiliation = affiliation
         self.is_corresponding = False
 
+    def corresponding(self) -> "Author":
+        self.is_corresponding = True
+
+        return self
+
 
 class Article:
     title: str
