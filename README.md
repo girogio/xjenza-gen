@@ -61,7 +61,7 @@ Once done, we can make use of the `Makefile` to quickly build and clean up any u
 make build
 ```
 
-## Example
+## Quick Start
 
 Here is a basic example of how to use `xjenza-gen`
 
@@ -80,11 +80,30 @@ latex = LatexEngine(
 )
 
 # Create some authors
-authors = [
-    Author("John", "Doe", "john@doe.com", "University of Malta").corresponding(),
-    Author("Jane", "Doe", "jane@doe.com", "Univerity of Nowhere"),
-    Author("Mark", "Dudinu", "dudino@mark.com", "University of Nowhere"),
-]
+einstein = Author(
+    "Albert",
+    "Einstein",
+    "albert@einstein.de",
+    "Department of Physics, Faculty of Science, University of Malta, Malta",
+).corresponding()
+
+oppenheimer = Author(
+    "Robert J.",
+    "Oppenheimer",
+    "robbie@radioaktiv.com",
+    "Department of Atomic Sciences, Faculty of Science, University of Malta, Malta",
+)
+
+schrodinger = (
+    Author(
+        "Erwin",
+        "Schrodinger",
+        "cat_or_no_cat@both.com",
+        "University of Vienna, Vienna, Austria",
+    ),
+)
+
+authors = [einstein, oppenheimer, schrodinger]
 
 # Create an article
 my_article = Article("A very interesting article", authors=authors)
@@ -93,13 +112,16 @@ my_article = Article("A very interesting article", authors=authors)
 latex.write_tex(my_article)
 
 # Build the article
-pdf_path = latex.build(my_article)
-
-print(f"PDF saved to {pdf_path}")
-
+latex.build(my_article)
 ```
 
-This will create a .tex file with the content of the `Article` object, compile
-it into a `.pdf` file run `biber` to process the bibliography, and then compile
-the `.tex` file into a `.pdf` file two more times to ensure all references are
-resolved correctly.
+Alternatively, you can specify the authors in a CSV file and load them into the
+`Article` object:
+
+```python
+# Create an article
+my_article = Article(
+    title="A very interesting article",
+    year=2023
+).authors_from_file("authors.csv")
+```

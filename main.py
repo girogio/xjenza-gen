@@ -9,15 +9,10 @@ latex = LatexEngine(
     output_file="main.tex",
 )
 
-# Create some authors
-authors = [
-    Author("John", "Doe", "john@doe.com", "University of Malta").corresponding(),
-    Author("Jane", "Doe", "jane@doe.com", "Univerity of Nowhere"),
-    Author("Mark", "Dudinu", "dudino@mark.com", "University of Nowhere"),
-]
-
 # Create an article
-my_article = Article("A very interesting article", authors=authors)
+my_article = Article(title="A very interesting article", year=2023).authors_from_file(
+    "authors.csv"
+)
 
 # Write the article to a tex file
 latex.write_tex(my_article)
