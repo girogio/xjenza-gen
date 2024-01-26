@@ -15,5 +15,5 @@ clean:
 
 
 build: clean
-	python3 run.py && \
+	python3 main.py && \
 	$(MAKE) --no-print-directory clean
