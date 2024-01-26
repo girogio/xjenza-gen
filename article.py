@@ -32,11 +32,45 @@ class Author:
         return self
 
 
+class Section:
+    title: str
+    content: str
+
+    def __init__(self, title: str = "", content: str = ""):
+        self.title = title
+        self.content = content
+
+    def dict(self):
+        return {"title": self.title, "content": self.content}
+
+    def __repr__(self) -> str:
+        return f"{self.title}: {self.content}"
+
+    def __str__(self) -> str:
+        return rf"\section{{{self.title}}}" + "\n" + self.content
+
+
+class Subsection:
+    title: str
+    content: str
+
+    def __init__(self, title: str = "", content: str = ""):
+        self.title = title
+        self.content = content
+
+    def dict(self):
+        return {"title": self.title, "content": self.content}
+
+    def __str__(self) -> str:
+        return rf"\subsection{{{self.title}}}" + "\n" + self.content
+
+
 class Article:
     title: str
     year: int
     authors: list[Author]
     abstract: str
+    content: str
 
     def __init__(
         self,
@@ -45,12 +79,28 @@ class Article:
         year: int = datetime.datetime.now().year,
         authors: list[Author] = [],
         abstract: str = "",
+        keywords: list[str] = [],
+        content: str = "",
     ):
         self.title = title
         self.short_title = short_title
         self.authors = authors
         self.year = year
         self.abstract = abstract
+        self.keywords = keywords
+        self.content = content
+
+    def add_section(self, section: Section):
+        self.content += "\n" + str(section) + "\n"
+        return self
+
+    def add_subsection(self, subsection: Subsection):
+        self.content += "\n" + str(subsection) + "\n"
+        return self
+
+    def add_keywords(self, *keywords):
+        self.keywords = list(keywords)
+        return self
 
     def authors_from_file(self, file_path: str):
         assert path.exists(file_path), "Path to authors file does not exist"
@@ -130,6 +180,8 @@ class Article:
             "affiliations": affiliation_string,
             "corresponder": corresponder,
             "abstract": self.abstract,
+            "keywords": self.keywords,
+            "content": self.content,
         }
 
         return dict_to_return

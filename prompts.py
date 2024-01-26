@@ -58,7 +58,14 @@ def prompt_abstract() -> str:
         print(
             f"WARNING: Abstract is too long ({word_count} words), it should be less than 250 words"
         )
-    return abstract
+
+    return ". ".join([sentence.strip() for sentence in abstract.split(".")])
+
+
+def prompt_keywords() -> list[str]:
+    """Prompt the user for the keywords of the article."""
+    keywords = prompt("Enter a comma-separated list of keywords", default="", type=str)
+    return [keyword.strip() for keyword in keywords.split(",")]
 
 
 def prompt_article() -> Article:
@@ -68,10 +75,11 @@ def prompt_article() -> Article:
     year = prompt_year_of_publication()
     authors = prompt_authors()
     abstract = prompt_abstract()
+    keywords = prompt_keywords()
     return Article(
         title=title,
         short_title=short_title,
         year=year,
         authors=authors,
         abstract=abstract,
-    )
+    ).add_keywords(*keywords)
