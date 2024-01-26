@@ -68,4 +68,10 @@ def prompt_article() -> Article:
     year = prompt_year_of_publication()
     authors = prompt_authors()
     abstract = prompt_abstract()
-    return Article(title=title, year=year, authors=authors, abstract=abstract)
+    return Article(
+        title=title,
+        short_title=short_title,
+        year=year,
+        authors=authors,
+        abstract=abstract,
+    )

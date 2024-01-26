@@ -41,11 +41,13 @@ class Article:
     def __init__(
         self,
         title: str = "",
+        short_title: str = "",
         year: int = datetime.datetime.now().year,
         authors: list[Author] = [],
         abstract: str = "",
     ):
         self.title = title
+        self.short_title = short_title
         self.authors = authors
         self.year = year
         self.abstract = abstract
@@ -121,6 +123,7 @@ class Article:
 
         dict_to_return = {
             "title": self.title,
+            "short_title": self.short_title,
             "year": self.year,
             "authors": self.authors,
             "authors_string": authors_string,

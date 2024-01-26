@@ -12,10 +12,9 @@
 \correspondanceMail{\BLOCK{ if corresponder is defined }\VAR{corresponder.email}\BLOCK{ else }john@doe.com\BLOCK{ endif }}
 
 % This goes in the header, in case the full title is too long
-% TODO: make this automatic
-\shortTitle{A very interesting scientific publication}
+\shortTitle{\BLOCK{ if short_title is defined }\VAR{short_title}\BLOCK{ else }A very interesting scientific publication\BLOCK{ endif }}
 
-\selfCitation{\BLOCK{ if authors is defined }\VAR{authors[0].surname}, \VAR{authors[0].name[0]} et al.\BLOCK{ else }Borg, J. et al.\BLOCK{ endif } (\VAR{year}).\newblock {\em Xjenza Online}, \pageref{firstpage}--\pageref{lastPage}.}
+\selfCitation{\BLOCK{ if authors is defined }\VAR{authors[0].surname}, \VAR{authors[0].name[0]} et al.\BLOCK{ else }Borg, J. et al.\BLOCK{ endif } (\VAR{year}). \newblock {\em Xjenza Online}, \pageref{firstpage}--\pageref{lastPage}.}
 
 % Bibliography file
 \addbibresource{references.bib}
