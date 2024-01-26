@@ -10,3 +10,5 @@ __pycache__
 *.xml
 *.run.xml
 *.synctex.gz;
+outputs/*.pdf
+outputs/*.tex
