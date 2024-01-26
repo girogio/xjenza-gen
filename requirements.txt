@@ -1,3 +1,3 @@
 Jinja2==3.1.3
-latexbuild @ git+https://github.com/girogio/latexbuild.git@c4f5bce2b8588f5098b0f09bbbc59a21978b0598
+latexbuild @ git+https://github.com/girogio/latexbuild
 MarkupSafe==2.1.4
