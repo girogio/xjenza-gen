@@ -1,13 +1,14 @@
+% FILENAME: main.tex
+
 \input{./packages/xjenza-preamble.tex}
 
 % Front matter
-\title{A very interesting scientific publication}
-\doi{10.7423/XJENZA.2022.x.xx}
+\title{\BLOCK{ if title is defined }\VAR{title}\BLOCK{ else }A very interesting scientific publication\BLOCK{ endif }}
+\doi{TO-BE-ASSIGNED}
 \articleType{Research Article}%Research Article, Review Article, Research Note, News Article...
-\author{J. Borg$^{1}$, J. Doe$^{2*}$ and J. Bloggs$^{2}$}
-\authorAnnotation{$^{1}$Department of Mathematics, Faculty of Science, University of Malta, Malta\\
-$^{2}$Department of Physics, Harvard University, Cambridge MA, US}
-\correspondanceName{J. Doe}
+\author{\BLOCK{ if authors is defined }\VAR{authors}\BLOCK{ else }J. Borg$^{1}$, J. Doe$^{2*}$ and J. Bloggs$^{2}$\BLOCK{ endif }}
+\authorAnnotation{\BLOCK{ if affiliations is defined }\VAR{affiliations}\BLOCK{ else }$^{2}$Department of Physics, Harvard University, Cambridge MA, US\BLOCK{ endif }}
+\correspondanceName{\BLOCK{ if corresponder is defined }\VAR{corresponder.name[0]}. \VAR{corresponder.surname}\BLOCK{ else }John Doe\BLOCK{ endif }}
 \correspondanceMail{john.doe@harvard.edu}
 
 % This goes in the header, in case the full title is too long

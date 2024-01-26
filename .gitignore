@@ -3,6 +3,7 @@ main.pdf
 *.log
 *.out
 *.toc
+__pycache__
 *.bbl
 *.blg
 *.bcf

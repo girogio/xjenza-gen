@@ -3,9 +3,17 @@
 SHELL := /bin/bash
 
 clean:
-	source run.sh && \
-	clean
+	echo -n "Cleaning... "
+	rm -rf __pycache__/
+	cd outputs && \
+	for file in *.aux *.log *.out *.toc *.bbl *.blg *.bcf *.xml *.run.xml *.fls *.fdb_latexmk *.synctex.gz; do \
+		if [ -f "$$file" ]; then \
+			rm "$$file"; \
+		fi; \
+	done
+	echo "Done"
+
 
 build: clean
-	source run.sh && \
-	run main
+	python3 run.py && \
+	$(MAKE) --no-print-directory clean
