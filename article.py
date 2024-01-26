@@ -1,4 +1,5 @@
 import datetime
+from os import path
 
 
 class Author:
@@ -9,13 +10,21 @@ class Author:
     is_corresponding: bool
 
     def __init__(
-        self, name: str = "", surname: str = "", email: str = "", affiliation: str = ""
+        self,
+        name: str = "",
+        surname: str = "",
+        email: str = "",
+        affiliation: str = "",
+        corresponding: bool = False,
     ):
         self.name = name
         self.surname = surname
         self.email = email
         self.affiliation = affiliation
-        self.is_corresponding = False
+        self.is_corresponding = corresponding
+
+    def __repr__(self) -> str:
+        return f"{self.name} {self.surname} ({self.email}) {'corresponding' if self.is_corresponding else ''}"
 
     def corresponding(self) -> "Author":
         self.is_corresponding = True
@@ -37,6 +46,37 @@ class Article:
         self.title = title
         self.authors = authors
         self.year = year
+
+    def authors_from_file(self, file_path: str):
+        assert path.exists(file_path), "Path to authors file does not exist"
+
+        with open(file_path, "r") as f:
+            for line in f.readlines():
+                if line.startswith("#"):
+                    continue
+
+                name, surname, email, affiliation, corresponding = line.split(";")
+                self.authors.append(
+                    Author(
+                        name.strip(),
+                        surname.strip(),
+                        email.strip(),
+                        affiliation.strip(),
+                        corresponding.lower().strip() == "yes",
+                    )
+                )
+
+        return self
+
+    def write_authors_to_file(self, file_path: str):
+        assert path.exists(file_path), "Path to authors file does not exist"
+
+        with open(file_path, "w") as f:
+            f.write("# name; surname; email; affiliation; corresponding\n")
+            for author in self.authors:
+                f.write(
+                    f"{author.name}; {author.surname}; {author.email}; {author.affiliation}; {'Yes' if author.is_corresponding else 'No'}\n"
+                )
 
     def dict(self):
         authors_string = ""
