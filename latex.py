@@ -56,15 +56,13 @@ class LatexEngine:
             f"Running biber on {path.join(self.output_folder, self.output_file)}... ",
             end="",
         )
-        pid = subprocess.run(
+        subprocess.run(
             ["biber", self.output_file.strip(".tex")],
             cwd=self.output_folder,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.STDOUT,
         )
         print("Done")
-
-        return pid
 
     def build(self, article: Article) -> str:
         """
