@@ -36,16 +36,19 @@ class Article:
     title: str
     year: int
     authors: list[Author]
+    abstract: str
 
     def __init__(
         self,
         title: str = "",
         year: int = datetime.datetime.now().year,
         authors: list[Author] = [],
+        abstract: str = "",
     ):
         self.title = title
         self.authors = authors
         self.year = year
+        self.abstract = abstract
 
     def authors_from_file(self, file_path: str):
         assert path.exists(file_path), "Path to authors file does not exist"
@@ -103,8 +106,18 @@ class Article:
                     )
                     break
 
-        corresponder = [author for author in self.authors if author.is_corresponding]
-        corresponder = corresponder[0] if len(corresponder) > 0 else None
+        corresponders = list(filter(lambda a: a.is_corresponding, self.authors))
+
+        if len(corresponders) == 1:
+            corresponder = corresponders[0]
+        elif len(corresponders) > 1:
+            corresponder = corresponders[0]
+            print(
+                f"WARNING: There are {len(corresponders)} corresponding authors, only the first one will be used"
+            )
+        else:
+            print("ERROR: No corresponding author found")
+            exit(1)
 
         dict_to_return = {
             "title": self.title,
@@ -113,6 +126,7 @@ class Article:
             "authors_string": authors_string,
             "affiliations": affiliation_string,
             "corresponder": corresponder,
+            "abstract": self.abstract,
         }
 
         return dict_to_return
