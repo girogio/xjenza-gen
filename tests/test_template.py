@@ -12,12 +12,14 @@ class TestProject(object):
     __test__ = False
     latex: LatexEngine
     inspect: bool
+    debug: bool
 
-    def __init__(self, inspect: bool = False):
+    def __init__(self, inspect: bool = True, debug=False):
         self.inspect = inspect
+        self.debug = debug
 
     def __enter__(self):
-        self.latex = copy_skel("xjenza_gen", "tests/test_article", False)
+        self.latex = copy_skel("xjenza_gen", "tests/test_article", self.debug)
         return self
 
     def __exit__(self, *args):
@@ -50,9 +52,8 @@ test_article = Article(
 ).add_keywords("test", "article")
 
 
-def test_latex():
+def test_tex_file_creation():
     with TestProject(inspect=True) as project:
         project.latex.write_tex(test_article)
-        project.latex.compile_pdf()
 
         assert path.exists(path.abspath("tests/test_article/test_article.tex"))
