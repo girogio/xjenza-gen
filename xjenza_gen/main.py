@@ -34,7 +34,9 @@ def new(
 
         raise typer.Exit(1)
 
-    latex = copy_skel(name, debug)
+    internal_path = path.dirname(path.realpath(__file__))
+
+    latex = copy_skel(internal_path, name, debug)
 
     article = prompt_article()
 
@@ -52,14 +54,14 @@ def run():
     typer.echo("Running project...")
 
 
-def copy_skel(to: path, debug: bool = False):
+def copy_skel(src: path, dst: path, debug: bool = False):
     """Copy the skeleton project to the specified folder."""
-    if path.exists(to):
-        print(f"[red]Folder '{to}' already exists, exiting...")
+    if path.exists(dst):
+        print(f"[red]Folder '{dst}' already exists, exiting...")
         typer.Abort()
 
-    internal_output_path = path.join(path.dirname(__file__), "outputs")
-    internal_template_folder = path.join(path.dirname(__file__), "templates")
+    internal_output_path = path.join(src, "outputs")
+    internal_template_folder = path.join(src, "templates")
 
     if not path.exists(internal_output_path):
         print(
@@ -68,11 +70,15 @@ def copy_skel(to: path, debug: bool = False):
         typer.Abort()
 
     try:
-        shutil.copytree(internal_output_path, to)
+        shutil.copytree(internal_output_path, dst)
     except Exception as e:
         print(f"[red]Error copying output folder: {e}")
         typer.Abort()
 
     return LatexEngine(
-        internal_template_folder, "main.tex", path.abspath(to), to + ".tex", debug
+        internal_template_folder,
+        "main.tex",
+        path.abspath(dst),
+        path.basename(dst) + ".tex",
+        debug,
     )
