@@ -122,41 +122,47 @@ class Article:
 
     def dict(self):
         authors_string = ""
+        author_affil_tuple = []
         for i, author in enumerate(self.authors):
-            # Unpack first letter of names 1...n-1
-            for name in author.name.split(" "):
-                authors_string += name[0] + ". "
-
-            # insert affiliation index and asterisk if corresponding author
-            authors_string += (
-                author.surname
-                + "$^{"
-                + str(i + 1)
-                + ("*" if author.is_corresponding else "")
-                + "}$"
+            rendered_name = (
+                ". ".join(name[0] for name in author.name.split(" "))
+                + "."
+                + " "
+                + author.surname
             )
 
+            all_affiliations = [
+                *dict.fromkeys(a.affiliation for a in self.authors)
+            ]  # preseves order and removes duplicates
+
+            tuple_to_append = (
+                rendered_name,
+                all_affiliations.index(author.affiliation) + 1,
+                author.is_corresponding,
+            )
+
+            author_affil_tuple.append(tuple_to_append)
             # add comma if not last author or "and" if second to last
-            if i == len(self.authors) - 2:
-                authors_string += " and "
-            elif i != len(self.authors) - 1:
-                authors_string += ", "
+            # if i == len(self.authors) - 2:
+            #     authors_string += " and "
+            # elif i != len(self.authors) - 1:
+            #     authors_string += ", "
 
-        # if any affiliation is the same, group them together
-        affiliation_string = ""
-        for i, author in enumerate(self.authors):
-            if author.affiliation in [a.affiliation for a in self.authors[:i]]:
-                continue
-            affiliation_string += f"$^{{{i+1}}}$ {author.affiliation}\\\\"
+        affiliation_string = f"\\\\".join(
+            [
+                f"$^{{{i+1}}}$ {affiliation}"
+                for i, affiliation in enumerate(all_affiliations)
+            ]
+        )
 
-        # replace the affiliation number of the authors that have the same affiliation
-        for i, author in enumerate(self.authors):
-            for j, other_author in enumerate(self.authors[:i]):
-                if author.affiliation == other_author.affiliation:
-                    authors_string = authors_string.replace(
-                        f"$^{{{i+1}}}$", f"$^{{{j+1}}}$"
-                    )
-                    break
+        # # replace the affiliation number of the authors that have the same affiliation
+        # for i, author in enumerate(self.authors):
+        #     for j, other_author in enumerate(self.authors[:i]):
+        #         if author.affiliation == other_author.affiliation:
+        #             authors_string = authors_string.replace(
+        #                 f"$^{{{i+1}}}$", f"$^{{{j+1}}}$"
+        #             )
+        #             break
 
         corresponders = list(filter(lambda a: a.is_corresponding, self.authors))
 
@@ -177,7 +183,8 @@ class Article:
             "year": self.year,
             "authors": self.authors,
             "authors_string": authors_string,
-            "affiliations": affiliation_string,
+            "author_affil_tuple": author_affil_tuple,
+            "affiliations": all_affiliations,
             "corresponder": corresponder,
             "abstract": self.abstract,
             "keywords": self.keywords,
