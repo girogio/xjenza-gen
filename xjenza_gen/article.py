@@ -123,7 +123,7 @@ class Article:
     def dict(self):
         authors_string = ""
         author_affil_tuple = []
-        for i, author in enumerate(self.authors):
+        for author in self.authors:
             rendered_name = (
                 ". ".join(name[0] for name in author.name.split(" "))
                 + "."
@@ -142,27 +142,6 @@ class Article:
             )
 
             author_affil_tuple.append(tuple_to_append)
-            # add comma if not last author or "and" if second to last
-            # if i == len(self.authors) - 2:
-            #     authors_string += " and "
-            # elif i != len(self.authors) - 1:
-            #     authors_string += ", "
-
-        affiliation_string = f"\\\\".join(
-            [
-                f"$^{{{i+1}}}$ {affiliation}"
-                for i, affiliation in enumerate(all_affiliations)
-            ]
-        )
-
-        # # replace the affiliation number of the authors that have the same affiliation
-        # for i, author in enumerate(self.authors):
-        #     for j, other_author in enumerate(self.authors[:i]):
-        #         if author.affiliation == other_author.affiliation:
-        #             authors_string = authors_string.replace(
-        #                 f"$^{{{i+1}}}$", f"$^{{{j+1}}}$"
-        #             )
-        #             break
 
         corresponders = list(filter(lambda a: a.is_corresponding, self.authors))
 
