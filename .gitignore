@@ -13,3 +13,4 @@ __pycache__
 outputs/*.pdf
 outputs/*.tex
 .vscode/*
+dist/
