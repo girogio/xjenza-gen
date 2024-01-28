@@ -39,7 +39,7 @@ class LatexEngine:
     def write_tex(self, article: Article):
         """This method writes the content of the Article object to a .tex file, using the Jinja2 template engine."""
         content = render_latex_template(
-            self.template_folder, self.template_file, article.dict(), escape_latex=False
+            self.template_folder, self.template_file, article.dict()
         )
 
         with open(path.join(self.output_folder, self.output_file), "w") as f:

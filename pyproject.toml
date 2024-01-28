@@ -8,11 +8,14 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 typer = "^0.9.0"
-latexbuild = { git = "https://github.com/girogio/latexbuild" }
 rich = "^13.7.0"
 pylatexenc = "^2.10"
 requests = "^2.31.0"
+latexbuild = "^0.2.2"
 
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
 
 [build-system]
 requires = ["poetry-core"]
