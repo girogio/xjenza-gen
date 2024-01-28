@@ -18,7 +18,6 @@ To run this tool successfully, you will need:
 
 - Python 3.6 or later (I'll assume you have this already)
 - LaTeX distribution installed (e.g., TeX Live, MiKTeX)
-- `make` utility (optional)
 - `biber` bibliography tool
 
 ### macOS
