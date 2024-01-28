@@ -26,7 +26,7 @@ class Author:
         self.is_corresponding = corresponding
 
     def __repr__(self) -> str:
-        return f"{self.name} {self.surname} ({self.email}) {'corresponding' if self.is_corresponding else ''}"
+        return f"{'. '.join(name[0].upper() for name in self.name.split())} {self.surname} ({self.email}) @ {self.affiliation} {', ' if self.is_corresponding else ''}"
 
     def corresponding(self) -> "Author":
         self.is_corresponding = True
