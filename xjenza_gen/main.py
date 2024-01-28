@@ -38,7 +38,7 @@ def new(
 
     article = prompt_article()
 
-    print("\n :pencil: Data entry complete, generating files...\n")
+    print("\n:pencil: Data entry complete, generating files...\n")
 
     latex.build(article)
 

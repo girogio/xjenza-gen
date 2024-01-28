@@ -110,7 +110,7 @@ def prompt_abstract() -> str:
 
 def prompt_keywords() -> list[str]:
     """Prompt the user for the keywords of the article."""
-    keywords = Prompt.ask("Enter a comma-separated list of keywords", default="")
+    keywords = Prompt.ask("[blue]Enter a comma-separated list of keywords", default="")
     return [keyword.strip() for keyword in keywords.split(",")]
 
 
