@@ -9,6 +9,7 @@ from typing_extensions import Annotated
 
 from xjenza_gen.article import Article, Author
 from xjenza_gen.latex import LatexEngine
+from xjenza_gen.prompts import prompt_article
 
 app = typer.Typer()
 
@@ -16,6 +17,7 @@ app = typer.Typer()
 @app.command()
 def new(
     name: Annotated[str, typer.Argument(..., help="Name of the project")] = "",
+    debug: bool = typer.Option(False, "--debug", "-d", help="Enable debug mode"),
 ):
     print("\n:sparkles: [green]Creating a new Xjenza article... \n")
 
@@ -32,23 +34,11 @@ def new(
 
         raise typer.Exit(1)
 
-    latex = copy_skel(name, debug=False)
+    latex = copy_skel(name, debug)
 
-    einstein = Author(
-        "Albert",
-        "Einstein",
-        "albert@einstein.de",
-        "Department of Physics, Faculty of Science, University of Malta, Malta",
-    ).corresponding()
+    article = prompt_article()
 
-    article = Article(
-        "Some article",
-        "shorter title",
-        2022,
-        [einstein],
-        "Abstract goes here",
-        ["some", "keywords"],
-    )
+    print("\n :pencil: Data entry complete, generating files...\n")
 
     latex.build(article)
 
