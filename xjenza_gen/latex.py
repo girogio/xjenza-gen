@@ -38,8 +38,10 @@ class LatexEngine:
 
     def write_tex(self, article: Article):
         """This method writes the content of the Article object to a .tex file, using the Jinja2 template engine."""
+        template_dictionary = article.dict()
+        template_dictionary.update({"name": self.output_file})
         content = render_latex_template(
-            self.template_folder, self.template_file, article.dict()
+            self.template_folder, self.template_file, template_dictionary
         )
 
         with open(path.join(self.output_folder, self.output_file), "w") as f:
@@ -81,9 +83,15 @@ class LatexEngine:
                 "Running biber", total=None, file_name=self.output_file
             )
 
+            print(path.join(self.output_folder, self.output_file.removesuffix(".tex")))
+
             subprocess.run(
-                ["biber", self.output_file.strip(".tex")],
-                cwd=self.output_folder,
+                [
+                    "biber",
+                    path.join(
+                        self.output_folder, self.output_file.removesuffix(".tex")
+                    ),
+                ],
                 stdout=subprocess.DEVNULL if not self.debug else None,
                 stderr=subprocess.STDOUT if not self.debug else None,
             )
