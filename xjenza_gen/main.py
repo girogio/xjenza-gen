@@ -25,14 +25,14 @@ def new(
 
     regex_name = r"^[a-zA-Z0-9_-]*$"
 
-    if not name.strip() or not path.isdir(name) or not re.match(regex_name, name):
+    if not name.strip() or not re.match(regex_name, name):
         print(
             f"[red]:x: Project name '{name}' is invalid. Please use only alphanumeric characters, dashes and underscores."
         )
 
         raise typer.Exit(1)
 
-    latex = copy_skel(name)
+    latex = copy_skel(name, debug=False)
 
     einstein = Author(
         "Albert",
@@ -53,7 +53,7 @@ def new(
     latex.build(article)
 
     print(
-        f"\n :tada: [green]Done, feel free to edit the generated files at {path.abspath(name)}"
+        f"\n:tada: [green]Done! Feel free to edit the generated files at [cyan]'{path.abspath(name)}'."
     )
 
 
@@ -62,7 +62,7 @@ def run():
     typer.echo("Running project...")
 
 
-def copy_skel(to: path):
+def copy_skel(to: path, debug: bool = False):
     """Copy the skeleton project to the specified folder."""
     if path.exists(to):
         print(f"[red]Folder '{to}' already exists, exiting...")
@@ -84,8 +84,5 @@ def copy_skel(to: path):
         typer.Abort()
 
     return LatexEngine(
-        internal_template_folder,
-        "main.tex",
-        path.abspath(to),
-        to + ".tex",
+        internal_template_folder, "main.tex", path.abspath(to), to + ".tex", debug
     )
