@@ -1,5 +1,8 @@
 name: Test with Poetry
-on: [push, pull_request]
+on:
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   pypi-publish:
@@ -39,17 +42,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          release_name: Release ${{ github.ref_name }}
           draft: false
           prerelease: false
       - name: Store the distribution packages in the release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ncipollo/release-action@v1
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/*
-          asset_name: ${{ env.PACKAGE_NAME }}-${{ github.ref }}.tar.gz
-          asset_content_type: application/gzip
+          artifacts: "dist/*"
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
