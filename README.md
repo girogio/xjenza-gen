@@ -35,7 +35,7 @@ To get started, install `xjenza-gen` using `pip` or [`pipx`](https://github.com/
 > Ubuntu users can install it using `pip install --user pipx`.
 
 ```bash
-pip install git+https://github.com/girogio/xjenza-gen
+pip install xjenza-gen
 ```
 
 ## Quick Start
