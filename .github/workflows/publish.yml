@@ -2,10 +2,15 @@ name: Test with Poetry
 on: [push, pull_request]
 
 jobs:
-  test:
+  pypi-publish:
+    name: Upload release to PyPI
     runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/{{ github.repository }}
+    permissions:
+      id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
     steps:
-      - uses: actions/checkout@v4
       - name: Install Python
         uses: actions/setup-python@v4
         # see details (matrix, python-version, python-version-file, etc.)
@@ -23,5 +28,12 @@ jobs:
           key: venv-${{ hashFiles('poetry.lock') }}
       - name: Install the project dependencies
         run: poetry install
-      - name: Run the automated tests
-        run: poetry run pytest -v
+      - name: Build the distribution packages
+        run: poetry build
+      - name: Store the distribution packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: python-package-distributions
+          path: dist/
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
