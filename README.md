@@ -30,6 +30,10 @@ sudo apt-get install biber texlive-full
 
 To get started, install `xjenza-gen` using `pip` or [`pipx`](https://github.com/pypa/pipx) (recommended):
 
+> [!NOTE]
+> macOS users that want to give `pipx` a try should install it using `brew install pipx`.
+> Ubuntu users can install it using `pip install --user pipx`.
+
 ```bash
 pip install git+https://github.com/girogio/xjenza-gen
 ```
