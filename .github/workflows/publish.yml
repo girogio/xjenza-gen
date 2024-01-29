@@ -36,15 +36,6 @@ jobs:
         run: poetry install
       - name: Build the distribution packages
         run: poetry build
-      - name: Create a release on GitHub
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref_name }}
-          draft: false
-          prerelease: false
       - name: Store the distribution packages in the release
         uses: ncipollo/release-action@v1
         with:
