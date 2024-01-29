@@ -98,7 +98,7 @@ class LatexEngine:
 
             progress.update(task, total=1, advance=1, completed=1)
 
-    def build(self, article: Article) -> str:
+    def build_article(self, article: Article) -> str:
         """
         This method is responsible for building the final PDF document from the given Article object.
 
@@ -121,3 +121,27 @@ class LatexEngine:
         self.compile_pdf()
 
         return path.join(self.output_folder, self.output_file.strip(".tex") + ".pdf")
+
+    def compile(self):
+        with Progress(
+            SpinnerColumn(finished_text=":heavy_check_mark:"),
+            TextColumn("[bold blue]{task.description} [cyan]{task.fields[file_name]}"),
+        ) as progress:
+            task = progress.add_task(
+                "Compiling...", total=None, file_name=self.output_file
+            )
+            subprocess.run(
+                [
+                    "pdflatex",
+                    "-interaction=nonstopmode",
+                    "-halt-on-error",
+                    "-output-directory",
+                    self.output_folder,
+                    self.output_file,
+                ],
+                stdout=subprocess.DEVNULL if not self.debug else None,
+                stderr=subprocess.STDOUT if not self.debug else None,
+            )
+
+            progress.update(task, total=1, advance=1, completed=1)
+
