@@ -63,9 +63,13 @@ def clean():
         raise typer.Exit(1)
 
     exts_to_remove = ["aux", "log", "out", "toc", "bbl", "blg", "synctex.gz", 'fdb_latexmk', 'fls', 'bcf', 'run.xml', 'synctex(busy)', 'synctex.gz(busy)']
+
     # remove all files with the above extensions
     for ext in exts_to_remove:
         for file in Path(".").glob(f"*.{ext}"):
+            file.unlink()
+
+        for file in Path("./packages").glob(f"*.{ext}"):
             file.unlink()
 
 @app.command()
