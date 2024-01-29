@@ -9,6 +9,8 @@ __pycache__
 *.bcf
 *.xml
 *.run.xml
+*.fdb_latexmk
+*.fls
 *.synctex.gz;
 outputs/*.pdf
 outputs/*.tex
