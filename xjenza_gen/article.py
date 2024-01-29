@@ -118,50 +118,11 @@ class Article:
                 )
 
     def dict(self):
-        authors_string = ""
-        author_affil_tuple = []
-        for author in self.authors:
-            rendered_name = (
-                ". ".join(name[0] for name in author.name.split(" "))
-                + "."
-                + " "
-                + author.surname
-            )
-
-            all_affiliations = [
-                *dict.fromkeys(a.affiliation for a in self.authors)
-            ]  # preseves order and removes duplicates
-
-            tuple_to_append = (
-                rendered_name,
-                all_affiliations.index(author.affiliation) + 1,
-                author.is_corresponding,
-            )
-
-            author_affil_tuple.append(tuple_to_append)
-
-        corresponders = list(filter(lambda a: a.is_corresponding, self.authors))
-
-        if len(corresponders) == 1:
-            corresponder = corresponders[0]
-        elif len(corresponders) > 1:
-            corresponder = corresponders[0]
-            print(
-                f"WARNING: There are {len(corresponders)} corresponding authors, only the first one will be used"
-            )
-        else:
-            print("ERROR: No corresponding author found")
-            exit(1)
-
         dict_to_return = {
             "title": self.title,
             "short_title": self.short_title,
             "year": self.year,
             "authors": self.authors,
-            "authors_string": authors_string,
-            "author_affil_tuple": author_affil_tuple,
-            "affiliations": all_affiliations,
-            "corresponder": corresponder,
             "abstract": self.abstract,
             "keywords": self.keywords,
             "content": self.content,
