@@ -1,6 +1,7 @@
 import re
 import shutil
 from os import path
+from pathlib import Path
 
 import typer
 from rich import print
@@ -13,6 +14,9 @@ from xjenza_gen.prompts import prompt_article
 
 app = typer.Typer()
 
+def is_in_project_folder():
+    """Check if the current working directory is a Xjenza project folder."""
+    return path.exists("./packages/xjenza.sty")
 
 @app.command()
 def new(
@@ -42,7 +46,7 @@ def new(
 
     print("\n:pencil: Data entry complete, generating files...\n")
 
-    latex.build(article)
+    latex.build_article(article)
 
     print(
         f"\n:tada: [green]Done! Feel free to edit the generated files at [cyan]'{path.abspath(name)}'."
@@ -50,30 +54,71 @@ def new(
 
 
 @app.command()
-def run():
-    typer.echo("Running project...")
+def clean():
+
+    if not is_in_project_folder():
+        print(
+            "[red]Error: 'xjenza.sty' not found in packages folder. Please run this command from the root of a Xjenza Online project."
+        )
+        raise typer.Exit(1)
+
+    exts_to_remove = ["aux", "log", "out", "toc", "bbl", "blg", "synctex.gz", 'fdb_latexmk', 'fls', 'bcf', 'run.xml', 'synctex(busy)', 'synctex.gz(busy)']
+    # remove all files with the above extensions
+    for ext in exts_to_remove:
+        for file in Path(".").glob(f"*.{ext}"):
+            file.unlink()
+
+@app.command()
+def build(
+    debug: bool = typer.Option(False, "--debug", "-d", help="Enable debug mode"),
+):
+
+    if not is_in_project_folder():
+        print(
+            "\n[red]:x: 'xjenza.sty' not found in packages folder. Please run this command from the root of a Xjenza Online project."
+        )
+        raise typer.Exit(1)
+
+
+    internal_path = path.dirname(path.realpath(__file__))
+
+    name = path.basename(path.abspath("."))
+
+    latex = LatexEngine(
+        path.join(internal_path, "templates"),
+        "main.tex",
+        "./",
+        name + ".tex",
+        debug,
+    )
+
+    latex.compile()
+
+    print(
+        f"\n:tada: [green]Done! Feel free to edit the generated files at [cyan]'{path.abspath(name)}'."
+    )
 
 
 def copy_skel(src: path, dst: path, debug: bool = False):
     """Copy the skeleton project to the specified folder."""
     if path.exists(dst):
         print(f"[red]Folder '{dst}' already exists, exiting...")
-        typer.Abort()
+        raise typer.Exit(1)
 
     internal_output_path = path.join(src, "outputs")
     internal_template_folder = path.join(src, "templates")
 
     if not path.exists(internal_output_path):
         print(
-            f"[red]Template folder was not bundled with the package! Please reinstall the package."
+            f"\n[red]Template folder was not bundled with the package! Please reinstall the package."
         )
-        typer.Abort()
+        raise typer.Exit(1)
 
     try:
         shutil.copytree(internal_output_path, dst)
     except Exception as e:
         print(f"[red]Error copying output folder: {e}")
-        typer.Abort()
+        raise typer.Exit(1)
 
     return LatexEngine(
         internal_template_folder,
@@ -82,3 +127,4 @@ def copy_skel(src: path, dst: path, debug: bool = False):
         path.basename(dst) + ".tex",
         debug,
     )
+
