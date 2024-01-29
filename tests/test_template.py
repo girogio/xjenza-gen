@@ -32,7 +32,7 @@ test_author = Author(
     email="john@doe.com",
     surname="Doe",
     affiliation="University of Malta",
-    corresponding=True,
+    is_corresponding=True,
 )
 
 test_author2 = Author(
@@ -40,7 +40,7 @@ test_author2 = Author(
     email="elena@fran.com",
     surname="Galea",
     affiliation="University of Zobbi",
-    corresponding=False,
+    is_corresponding=False,
 )
 
 

@@ -17,16 +17,13 @@ class Author:
         surname: str = "",
         email: str = "",
         affiliation: str = "",
-        corresponding: bool = False,
+        is_corresponding: bool = False,
     ):
         self.name = name
         self.surname = surname
         self.email = email
         self.affiliation = affiliation
-        self.is_corresponding = corresponding
-
-    def __repr__(self) -> str:
-        return f"{'. '.join(name[0].upper() for name in self.name.split())} {self.surname} ({self.email}) @ {self.affiliation} {', ' if self.is_corresponding else ''}"
+        self.is_corresponding = is_corresponding
 
     def corresponding(self) -> "Author":
         self.is_corresponding = True
