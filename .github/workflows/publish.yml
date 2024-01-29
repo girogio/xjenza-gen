@@ -33,10 +33,23 @@ jobs:
         run: poetry install
       - name: Build the distribution packages
         run: poetry build
-      - name: Store the distribution packages
-        uses: actions/upload-artifact@v3
+      - name: Create a release on GitHub
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: python-package-distributions
-          path: dist/
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Store the distribution packages in the release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/*
+          asset_name: ${{ env.PACKAGE_NAME }}-${{ github.ref }}.tar.gz
+          asset_content_type: application/gzip
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
