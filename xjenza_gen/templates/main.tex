@@ -14,7 +14,7 @@
 \articleType{Research Article} % Research Article, Review Article, Research Note, News Article...
 \author{
 	\BLOCK{- for author in authors  -}
-		\VAR{- (author.name.split(" ")[:-1]) | map('first') | list | join('. ') -}. \VAR{ author.name.split(" ")[-1] -}
+	\VAR{- (author.name.split(" ")) | map('first') | list | join('. ') -}. \VAR{ author.surname -}
 		\VAR{- '$^{' + ((authors|map(attribute='affiliation')|list|unique|list).index(author.affiliation)+1)|string + ('*' if author.is_corresponding else '') + '}$' -}
 		\BLOCK{- if loop.index < loop.length - 1 }, \BLOCK{elif loop.index == loop.length - 1 } and \BLOCK{ endif -}
 	\BLOCK{- endfor -}
